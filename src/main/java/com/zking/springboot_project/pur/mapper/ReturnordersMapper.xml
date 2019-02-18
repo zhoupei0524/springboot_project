@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.springboot_project.pur.mapper.ReturnordersMapper" >
+  <resultMap id="BaseResultMap" type="com.zking.springboot_project.pur.model.Rreturnorders" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="checktime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="endtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="type" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="creater" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="checker" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="ender" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="supplierid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="totalmoney" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="state" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="ordersid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="waybillsn" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, createtime, checktime, endtime, type, creater, checker, ender, supplierid, totalmoney, 
+    state, ordersid, waybillsn
+  </sql>
+  <select id="queryOrderLstPage" resultType="map" parameterType="com.zking.springboot_project.vo.Ordervoreturn">
+    SELECT o.*,s.name sname FROM (
+    SELECT z.*,p.realname eer FROM (
+    SELECT c.*,d.realname cer FROM (
+    SELECT a.*,b.realname aer FROM returnorders a LEFT JOIN emp b ON a.creater = b.id WHERE TYPE=2
+    ) c LEFT JOIN emp d ON c.checker = d.id
+    ) z LEFT JOIN emp p ON z.ender = p.id
+    ) o LEFT JOIN supplier s ON o.supplierid = s.id
+    WHERE 1=1
+    <if test="null!=id">
+      and o.id like concat(concat('%',#{id}),'%')
+    </if>
+    <if test="null!=createtime">
+      and createtime&gt;${datea} and createtime&lt;${dateb}
+    </if>
+    order by createtime DESC
+  </select>
+  <select id="querypurOrderPage" resultType="map" parameterType="com.zking.springboot_project.vo.Ordervoreturn">
+    SELECT o.*,s.name sname FROM (
+    SELECT z.*,p.realname eer FROM (
+    SELECT c.*,d.realname cer FROM (
+    SELECT a.*,b.realname aer FROM returnorders a LEFT JOIN emp b ON a.creater = b.id WHERE TYPE=1
+    ) c LEFT JOIN emp d ON c.checker = d.id
+    ) z LEFT JOIN emp p ON z.ender = p.id
+    ) o LEFT JOIN supplier s ON o.supplierid = s.id
+    WHERE 1=1
+    <if test="null!=id">
+      and o.id like concat(concat('%',#{id}),'%')
+    </if>
+    <if test="null!=createtime">
+      and createtime&gt;${datea} and createtime&lt;${dateb}
+    </if>
+    order by createtime DESC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from returnorders
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zking.springboot_project.pur.model.Rreturnorders" >
+    insert into returnorders (id, createtime,
+       type, creater,
+       supplierid, totalmoney,
+       state, waybillsn)
+    values (#{id,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP},
+     #{type,jdbcType=CHAR}, #{creater,jdbcType=INTEGER},
+     #{supplierid,jdbcType=INTEGER}, #{totalmoney,jdbcType=INTEGER},
+     #{state,jdbcType=CHAR},#{waybillsn,jdbcType=INTEGER})
+  </insert>
+  <update id="updatecheck" parameterType="com.zking.springboot_project.pur.model.Rreturnorders" >
+    update returnorders
+    set checktime = #{checktime,jdbcType=TIMESTAMP},
+      checker = #{checker,jdbcType=INTEGER},
+      state = #{state,jdbcType=CHAR}
+    where id = #{id}
+  </update>
+  <update id="updatByideout" parameterType="com.zking.springboot_project.pur.model.Rreturnorders">
+    update returnorders
+    set endtime = #{endtime,jdbcType=TIMESTAMP},
+    ender = #{ender,jdbcType=INTEGER},
+    state = #{state,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateender" parameterType="com.zking.springboot_project.pur.model.Rreturnorders">
+   update returnorders
+   set endtime = #{endtime,jdbcType=TIMESTAMP},
+      ender = #{ender,jdbcType=INTEGER},
+      state = #{state,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.springboot_project.hac.mapper.StatisMapper" >
+  <resultMap id="BaseResultMap" type="com.zking.springboot_project.hac.model.Statis" >
+    <constructor >
+      <arg column="endtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="goodsid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="money" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="goodtypeid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="goodtypename" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <insert id="insert" parameterType="com.zking.springboot_project.hac.model.Statis" >
+    insert into statis (endtime, goodsid, money, 
+      goodtypeid, goodtypename)
+    values (#{endtime,jdbcType=TIMESTAMP}, #{goodsid,jdbcType=INTEGER}, #{money,jdbcType=REAL}, 
+      #{goodtypeid,jdbcType=INTEGER}, #{goodtypename,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zking.springboot_project.hac.model.Statis" >
+    insert into statis
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="endtime != null" >
+        endtime,
+      </if>
+      <if test="goodsid != null" >
+        goodsid,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="goodtypeid != null" >
+        goodtypeid,
+      </if>
+      <if test="goodtypename != null" >
+        goodtypename,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsid != null" >
+        #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=REAL},
+      </if>
+      <if test="goodtypeid != null" >
+        #{goodtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="goodtypename != null" >
+        #{goodtypename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="queryStatisList" resultType="map" parameterType="com.zking.springboot_project.hac.vo.StatisVo">
+    SELECT SUM(ors.price*ors.num) y,gt.name name
+    FROM orderdetail ors,goods g,goodstype gt ,orders os
+    WHERE ors.goodsid=g.id AND g.goodstypeid=gt.id AND os.id=ors.orderid and os.type=2
+    <if test="begin!=null and ''!=begin">
+      AND os.endtime&gt;=#{begin}
+    </if>
+    <if test="end!=null and ''!=end">
+      AND os.endtime&lt;=#{end}
+    </if>
+    GROUP BY gt.id
+  </select>
+</mapper>

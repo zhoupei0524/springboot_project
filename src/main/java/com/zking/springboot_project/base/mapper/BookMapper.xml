@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.springboot_project.base.mapper.BookMapper" >
+  <resultMap id="BaseResultMap" type="com.zking.springboot_project.base.model.Book" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="bookName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="price" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="bookType" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bookName, price, bookType
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_book
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="queryListBookPage" resultType="com.zking.springboot_project.base.model.Book"
+            parameterType="com.zking.springboot_project.base.model.Book">
+      select <include refid="Base_Column_List"/>
+      FROM t_book where 1=1
+      <if test="null!=bookname and ''!=bookname">
+        and bookname like concat(concat('%',#{bookname}),'%')
+      </if>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_book
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zking.springboot_project.base.model.Book" >
+    insert into t_book (id, bookName, price, 
+      bookType)
+    values (#{id,jdbcType=INTEGER}, #{bookname,jdbcType=VARCHAR}, #{price,jdbcType=REAL}, 
+      #{booktype,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zking.springboot_project.base.model.Book" >
+    insert into t_book
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bookname != null" >
+        bookName,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="booktype != null" >
+        bookType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bookname != null" >
+        #{bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="booktype != null" >
+        #{booktype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zking.springboot_project.base.model.Book" >
+    update t_book
+    <set >
+      <if test="bookname != null" >
+        bookName = #{bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=REAL},
+      </if>
+      <if test="booktype != null" >
+        bookType = #{booktype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zking.springboot_project.base.model.Book" >
+    update t_book
+    set bookName = #{bookname,jdbcType=VARCHAR},
+      price = #{price,jdbcType=REAL},
+      bookType = #{booktype,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

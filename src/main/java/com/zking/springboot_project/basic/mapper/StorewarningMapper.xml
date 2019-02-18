@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.springboot_project.basic.mapper.StorewarningMapper" >
+  <resultMap id="BaseResultMap" type="com.zking.springboot_project.basic.model.Storewarning" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="goodid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="goodname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="num" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="dropnum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, goodid, goodname, num, dropnum
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from storewarning
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="queryStorewarningListPage" resultType="com.zking.springboot_project.basic.model.Storewarning"
+          parameterType="com.zking.springboot_project.basic.model.Storewarning">
+    select * from storewarning where 1=1
+    <if test="goodname!=null and ''!=goodname">
+      and goodname=#{goodname}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from storewarning
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zking.springboot_project.basic.model.Storewarning" >
+    insert into storewarning (goodid, goodname,
+      num, dropnum)
+    values ( #{goodid,jdbcType=INTEGER}, #{goodname,jdbcType=VARCHAR},
+      #{num,jdbcType=INTEGER}, #{dropnum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zking.springboot_project.basic.model.Storewarning" >
+    insert into storewarning
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="goodid != null" >
+        goodid,
+      </if>
+      <if test="goodname != null" >
+        goodname,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="dropnum != null" >
+        dropnum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="goodid != null" >
+        #{goodid,jdbcType=INTEGER},
+      </if>
+      <if test="goodname != null" >
+        #{goodname,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="dropnum != null" >
+        #{dropnum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zking.springboot_project.basic.model.Storewarning" >
+    update storewarning
+    <set >
+      <if test="goodid != null" >
+        goodid = #{goodid,jdbcType=INTEGER},
+      </if>
+      <if test="goodname != null" >
+        goodname = #{goodname,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="dropnum != null" >
+        dropnum = #{dropnum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zking.springboot_project.basic.model.Storewarning" >
+    update storewarning
+    set goodid = #{goodid,jdbcType=INTEGER},
+      goodname = #{goodname,jdbcType=VARCHAR},
+      num = #{num,jdbcType=INTEGER},
+      dropnum = #{dropnum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

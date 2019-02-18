@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.springboot_project.pur.mapper.ReturnorderdetailMapper" >
+  <resultMap id="BaseResultMap" type="com.zking.springboot_project.pur.model.Returnorderdetail" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="goodsid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="price" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="num" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="money" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="endtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="ender" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="storeid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="start" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="ordersid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zking.springboot_project.pur.model.Returnorderdetail" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="goodsid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="price" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="num" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="money" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="endtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="ender" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="storeid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="start" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="ordersid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="goodsname" jdbcType="VARBINARY" javaType="_byte[]" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, goodsid,goodsname, price, num, money, endtime, ender, storeid, start, ordersid
+  </sql>
+  <sql id="Blob_Column_List" >
+    goodsname
+  </sql>
+  <select id="querybackByid" resultType="map" parameterType="com.zking.springboot_project.pur.model.Returnorderdetail">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from returnorderdetail
+    where ordersid = #{ordersid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from returnorderdetail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zking.springboot_project.pur.model.Returnorderdetail" >
+    insert into returnorderdetail (goodsid, price,
+    num, money,  storeid, start,
+    ordersid, goodsname)
+    values ( #{goodsid,jdbcType=INTEGER}, #{price,jdbcType=REAL},
+    #{num,jdbcType=INTEGER}, #{money,jdbcType=REAL}, #{storeid,jdbcType=INTEGER}, #{start,jdbcType=CHAR},
+    #{ordersid,jdbcType=INTEGER}, #{goodsname,jdbcType=VARBINARY})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zking.springboot_project.pur.model.Returnorderdetail" >
+    update returnorderdetail
+    set
+    endtime = #{endtime,jdbcType=TIMESTAMP},
+    ender = #{ender,jdbcType=INTEGER},
+    storeid = #{storeid,jdbcType=INTEGER},
+    start = #{start,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updatebackout" parameterType="com.zking.springboot_project.pur.model.Returnorderdetail">
+    update returnorderdetail
+    set
+      endtime = #{endtime,jdbcType=TIMESTAMP},
+      ender = #{ender,jdbcType=INTEGER},
+      storeid = #{storeid,jdbcType=INTEGER},
+      start = #{start,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

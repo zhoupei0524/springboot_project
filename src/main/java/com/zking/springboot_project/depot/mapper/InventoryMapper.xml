@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.springboot_project.depot.mapper.InventoryMapper" >
+  <resultMap id="BaseResultMap" type="com.zking.springboot_project.depot.model.Inventory" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="goodsid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="storeid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="num" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="type" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="checktime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="creater" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="checker" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="state" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, goodsid, storeid, num, type, createtime, checktime, creater, checker, state, 
+    remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from inventory
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="queryInventoryMapPage" resultType="map"
+          parameterType="com.zking.springboot_project.depot.vo.InventoryVo">
+    SELECT i.*,g.name goods,s.name store,e.realname creat,f.realname checks FROM inventory i
+    INNER JOIN goods g ON i.goodsid=g.id
+    INNER JOIN store s ON i.storeid=s.id
+    LEFT  JOIN emp f ON  i.checker=f.id
+    LEFT  JOIN emp e ON  i.creater=e.id
+    where 1=1
+    <if test="registerstartDay!=null and ''!=registerstartDay">
+      and i.createtime&gt;=#{registerstartDay}
+    </if>
+    <if test="registerendDay!=null and ''!=registerendDay">
+      and i.createtime&lt;=#{registerendDay}
+    </if>
+    <if test="checkstartDay!=null and ''!=checkstartDay">
+      and i.checktime&gt;=#{checkstartDay}
+    </if>
+    <if test="checkendDay!=null and ''!=checkendDay">
+      and i.checktime&lt;=#{checkendDay}
+    </if>
+    <if test="type!=null and ''!=type">
+      and i.type=#{type}
+    </if>
+    <if test="creater!=null and ''!=creater">
+      and i.creater=#{creater}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from inventory
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zking.springboot_project.depot.model.Inventory" >
+    insert into inventory ( goodsid, storeid, num, type, createtime, creater,state, remark)
+    values ( #{goodsid}, #{storeid},#{num}, #{type}, #{createtime}, #{creater},#{state}, #{remark})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zking.springboot_project.depot.model.Inventory" >
+    insert into inventory
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="goodsid != null" >
+        goodsid,
+      </if>
+      <if test="storeid != null" >
+        storeid,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="checktime != null" >
+        checktime,
+      </if>
+      <if test="creater != null" >
+        creater,
+      </if>
+      <if test="checker != null" >
+        checker,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="goodsid != null" >
+        #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="storeid != null" >
+        #{storeid,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checktime != null" >
+        #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=INTEGER},
+      </if>
+      <if test="checker != null" >
+        #{checker,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=CHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="addInventory" parameterType="com.zking.springboot_project.depot.model.Inventory">
+        insert into inventory ( goodsid, storeid,
+      num, type, createtime,
+       creater,
+      state, remark)
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zking.springboot_project.depot.model.Inventory" >
+    update inventory
+    <set >
+      <if test="goodsid != null" >
+        goodsid = #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="storeid != null" >
+        storeid = #{storeid,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checktime != null" >
+        checktime = #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=INTEGER},
+      </if>
+      <if test="checker != null" >
+        checker = #{checker,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=CHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateCheck" parameterType="com.zking.springboot_project.depot.model.Inventory" >
+    update inventory
+    set
+      checktime = #{checktime},
+      checker = #{checker},
+      state = #{state}
+    where id = #{id}
+  </update>
+</mapper>

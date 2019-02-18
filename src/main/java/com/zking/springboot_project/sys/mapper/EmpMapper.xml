@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.springboot_project.sys.mapper.EmpMapper">
+    <resultMap id="BaseResultMap" type="com.zking.springboot_project.sys.model.Emp">
+        <constructor>
+            <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="username" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="password" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="realname" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="gender" jdbcType="CHAR" javaType="java.lang.String"/>
+            <arg column="email" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="tele" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="address" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="createday" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="depid" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="salt" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="photo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, username, password, realname, gender, email, tele, address, createday, depid, 
+    salt,photo
+  </sql>
+    <insert id="insert" parameterType="com.zking.springboot_project.sys.model.Emp">
+        insert into emp (username,password, realname,gender,email, tele, address, createday, depid,salt,photo
+      )
+      values (#{username},#{password}, #{realname},#{gender},#{email},#{tele},#{address},#{createday},#{depid},
+      #{salt},#{photo}
+      )
+    </insert>
+    <update id="updateEmp" parameterType="com.zking.springboot_project.sys.model.Emp">
+        update emp
+        <set>
+            <if test="username != null and ''!=username">
+                username = #{username},
+            </if>
+            <if test="realname != null and ''!=realname">
+                realname = #{realname},
+            </if>
+            <if test="gender != null and ''!=gender">
+                gender = #{gender},
+            </if>
+            <if test="address != null and ''!=address">
+                address = #{address},
+            </if>
+            <if test="tele != null and ''!=tele">
+                tele = #{tele},
+            </if>
+            <if test="email != null and ''!=email">
+                email = #{email},
+            </if>
+            <if test="depid != null">
+                depid = #{depid},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updatePassword" parameterType="com.zking.springboot_project.sys.model.Emp">
+        update emp
+        <set>
+            <if test="password != null and ''!=password">
+                password = #{password},
+            </if>
+            <if test="salt != null and ''!=salt">
+                salt = #{salt}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="editUser" parameterType="com.zking.springboot_project.sys.model.Emp">
+        update emp
+        <set>
+            <if test="username != null and ''!=username">
+                username = #{username},
+            </if>
+            <if test="realname != null and ''!=realname">
+                realname = #{realname},
+            </if>
+            <if test="address != null and ''!=address">
+                address = #{address},
+            </if>
+            <if test="gender != null and ''!=gender">
+                gender = #{gender},
+            </if>
+            <if test="email != null and ''!=email">
+                email = #{email},
+            </if>
+            <if test="tele != null and ''!=tele">
+                tele = #{tele},
+            </if>
+            <if test="createday != null ">
+                createday = #{createday}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="editPhoto" parameterType="com.zking.springboot_project.sys.model.Emp">
+        update emp set  photo = #{photo}
+        where id = #{id}
+
+    </update>
+    <delete id="delEmp" parameterType="com.zking.springboot_project.sys.model.Emp">
+        delete from emp
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <select id="querySingle" resultType="com.zking.springboot_project.sys.model.Emp">
+        select * from emp where username=#{username}
+    </select>
+    <select id="findRoles" resultType="string">
+       SELECT r.rolename FROM emp e,emp_role er,role r
+       WHERE e.id=er.empid AND er.roleid=r.roleid and e.username=#{username}
+    </select>
+    <select id="findPermissions" resultType="string">
+        SELECT m.url FROM emp e,emp_role er,role_module rm,module m
+        WHERE e.id=er.empid AND er.roleid=rm.roleid AND rm.moduleid=m.id and e.username=#{username}
+    </select>
+    <select id="queryEmp" resultType="com.zking.springboot_project.sys.model.Emp"
+            parameterType="com.zking.springboot_project.sys.model.Emp">
+        select * from emp where depid=7
+    </select>
+    <select id="queryEmpPage" resultType="map" parameterType="com.zking.springboot_project.sys.VO.EmpVo">
+        SELECT e.*,d.name dep FROM emp e,dep d WHERE e.depid=d.id
+        <if test="username!=null and ''!=username">
+            and e.username like CONCAT(CONCAT('%',#{username}),'%')
+        </if>
+        <if test="realname!=null and ''!=realname">
+            and e.realname=#{realname}
+        </if>
+        <if test="gender!=null and ''!=gender">
+            and e.gender=#{gender}
+        </if>
+        <if test="email!=null and ''!=email">
+            and e.email=#{email}
+        </if>
+        <if test="tele!=null and ''!=tele">
+            and e.tele=#{tele}
+        </if>
+        <if test="depid!=null">
+            and e.depid=#{depid}
+        </if>
+        <if test="address!=null and ''!=address">
+            and e.tele=#{tele}
+        </if>
+        <if test="startDay!=null and ''!=startDay">
+            and e.createday&gt;=#{startDay}
+        </if>
+        <if test="endDay!=null and ''!=endDay">
+            and e.createday&lt;=#{endDay}
+        </if>
+    </select>
+    <select id="queryEmpRolePage" resultType="map" parameterType="com.zking.springboot_project.sys.VO.EmpVo">
+        SELECT c.*,r.rolename FROM
+        (SELECT e.*,er.`roleid` FROM emp e LEFT JOIN emp_role er ON e.id=er.empid)c
+        LEFT JOIN role r ON c.roleid=r.roleid where 1=1
+        <if test="username!=null and ''!=username">
+            and c.username=#{username}
+        </if>
+        <if test="realname!=null and ''!=realname">
+            and c.realname=#{realname}
+        </if>
+        <if test="gender!=null and ''!=gender">
+            and c.gender=#{gender}
+        </if>
+        <if test="email!=null and ''!=email">
+            and c.email=#{email}
+        </if>
+        <if test="tele!=null and ''!=tele">
+            and c.tele=#{tele}
+        </if>
+        <if test="depid!=null">
+            and r.roleid=#{depid}
+        </if>
+        <if test="address!=null and ''!=address">
+            and c.tele=#{tele}
+        </if>
+        <if test="startDay!=null and ''!=startDay">
+            and c.createday&gt;=#{startDay}
+        </if>
+        <if test="endDay!=null and ''!=endDay">
+            and c.createday&lt;=#{endDay}
+        </if>
+    </select>
+    <select id="queryEmpByRole" resultType="com.zking.springboot_project.sys.model.Emp"
+            parameterType="com.zking.springboot_project.sys.model.Emp">
+        SELECT e.id,e.realname
+        FROM emp e,emp_role er,role r
+        WHERE e.id=er.empid AND er.roleid=r.roleid
+        AND r.roleid=#{id}
+    </select>
+    <select id="MapLoginSession" resultType="map" parameterType="com.zking.springboot_project.sys.model.Emp">
+        SELECT e.*,r.* FROM emp e LEFT JOIN emp_role er ON e.id=er.empid
+        LEFT JOIN role r ON er.roleid=r.roleid WHERE e.id=#{id}
+    </select>
+
+
+</mapper>

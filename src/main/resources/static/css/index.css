@@ -1,0 +1,43 @@
+/*!*公共样式*!*/
+/*.header .layui-nav-child{ z-index:99999; top:60px; left: auto; right: 0;}*/
+/*.seraph{ font-size:16px !important;}*/
+/*.main_body{ min-width:320px; }*/
+/*.layui-nav .layui-nav-item a{ cursor:pointer;}*/
+/*.layui-nav .layui-nav-item>a{ color:rgba(255,255,255,1); max-height:60px;}*/
+/*.layui-layer-tab .layui-layer-title span{ padding:0 !important;}*/
+/*iframe{ position:absolute; height:100%; width:100%; border:none;}*/
+/*.top_menu.layui-nav .layui-nav-child dd.layui-this a,.closeBox.layui-nav .layui-nav-child dd.layui-this a,.closeBox .layui-nav-child dd.layui-this,.top_menu .layui-nav-child dd.layui-this{ background:none; color:#333;}*/
+/*.layui-nav .layui-nav-child a:hover,.layui-nav .layui-nav-child dd.layui-this a:hover{background-color:#3BBFB4;color:#fff;}*/
+
+/*修改顶部高度*/
+.header .layui-nav-child,.layui-body,.layui-layout-admin .layui-side,.header .layui-nav-bar{ top:50px !important;}
+.header .layui-nav .layui-nav-item,.header .layui-nav .layui-nav-item>a,.header,.logo{ line-height:50px !important; max-height:50px; !important;}
+/*左侧菜单*/
+.showMenu.layui-layout-admin .layui-side{ left:-200px; }
+.showMenu .layui-body,.showMenu .layui-footer{ left:0; }
+/*左侧用户头像*/
+.top_menu{ background-color:inherit !important; position:absolute; right:0;top:0; }
+.layui-layout-admin .layui-side{ left:0; overflow:hidden;}
+.user-photo{width: 200px; height: 120px; padding:15px 0 5px;}
+.user-photo a.img{ display: block; width:80px; height:80px; margin: 0 auto 10px;}
+.user-photo a.img img{ display: block; border: none; width: 100%; height: 100%; border-radius: 50%; -webkit-border-radius: 50%; -moz-border-radius: 50%; border: 4px solid #44576b; box-sizing:border-box;}
+.user-photo p{ display: block; width: 100%; height: 25px; color: #ffffff; text-align: center; font-size: 12px; white-space: nowrap;line-height: 25px; overflow: hidden;}
+/*layui-body*/
+.layui-body{overflow:hidden; border-top:5px solid #ffffff;border-left:2px solid #ffffff; background:#fff;}
+#top_tabs_box{ padding-right:138px; height:40px; border-bottom:1px solid #e2e2e2; }
+#top_tabs{ position: absolute; border-bottom:none;}
+.layui-tab-title .layui-this{ background-color:#3BBFB4; color:#fff; }
+.layui-tab-title .layui-this:after{ border:none; }
+.layui-tab-title li cite{ font-style: normal; padding-left:5px; }
+.clildFrame.layui-tab-content{ top:41px; position:absolute; bottom:0; width:100%; padding:0;}
+/*顶部Logo样式*/
+.layui-layout-admin .logo {position: absolute;left: 0; top: 0; width: 200px;
+	height: 100%; line-height: 60px; text-align: center; color: #FFFFFF; font-size: 16px
+}
+/*样式改变的过渡*/
+.layui-body,.layui-footer,.layui-layout-admin .layui-side,.logo,.topLevelMenus li.layui-nav-item,.topLevelMenus li.layui-nav-item:hover{ transition: all 0.3s ease-in-out;-webkit-transition: all 0.3s ease-in-out;-o-transition: all 0.3s ease-in-out;-moz-transition: all 0.3s ease-in-out;-ms-transition: all 0.3s ease-in-out; }
+
+/*重写样式 设置第一个iframe不可删除*/
+.layui-tab .layui-tab-title>li:first-child>i{display:none}
+/*修改密码*/
+.pwdTips{ min-height:auto; margin:40px 0 15px 110px;}

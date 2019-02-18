@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.springboot_project.sys.mapper.ModuleMapper" >
+  <resultMap id="BaseResultMap" type="com.zking.springboot_project.sys.model.Module" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="text" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="icon" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="url" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sort" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, pid, text, icon, url, sort
+  </sql>
+  <insert id="insertRoleModule" parameterType="com.zking.springboot_project.sys.model.RoleModule">
+      insert into role_module (roleid, moduleid)
+      values (#{roleid,jdbcType=VARCHAR}, #{moduleid,jdbcType=INTEGER})
+  </insert>
+  <select id="querymodulemap" resultType="map" parameterType="com.zking.springboot_project.sys.model.Module">
+      select id,pid,text,url,icon,text from module where 1=1
+
+  </select>
+    <select id="querymoduleList" resultType="com.zking.springboot_project.sys.model.Module"
+            parameterType="com.zking.springboot_project.sys.model.Module">
+       select id,pid,text,url,icon,text from module where 1=1
+    </select>
+  <select id="queryroleModulesingm" resultType="com.zking.springboot_project.sys.model.RoleModule"
+          parameterType="com.zking.springboot_project.sys.model.RoleModule">
+    select * from role_module where 1=1
+    and roleid = #{roleid}
+  </select>
+    <select id="querylistmapByIdtomodule" resultType="map" parameterType="com.zking.springboot_project.sys.model.Module">
+      SELECT m.* FROM emp_role er,role_module rm,module m
+      WHERE er.roleid=rm.roleid AND rm.moduleid=m.id
+      <if test="id!=null">
+        AND er.empid=#{id}
+      </if>
+    </select>
+  <select id="deleteByIdtorolemodule"  parameterType="com.zking.springboot_project.sys.model.Module">
+    delete from role_module where roleid=#{id}
+  </select>
+
+
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.springboot_project.personnel.mapper.DepMapper" >
+  <resultMap id="BaseResultMap" type="com.zking.springboot_project.personnel.model.Dep" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="tele" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, tele
+  </sql>
+  <select id="selectByID" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from dep
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="queryDepPage" resultType="com.zking.springboot_project.personnel.model.Dep"
+          parameterType="com.zking.springboot_project.personnel.model.Dep">
+    select * from dep where 1=1
+    <if test="name!=null and ''!=name">
+       and name like CONCAT(CONCAT('%',#{name}),'%')
+    </if>
+    <if test="tele!=null and ''!=tele">
+      and tele like CONCAT(CONCAT('%',#{tele}),'%')
+    </if>
+    group by id desc
+  </select>
+  <select id="selectByName" resultType="com.zking.springboot_project.personnel.model.Dep"
+          parameterType="com.zking.springboot_project.personnel.model.Dep">
+    select * from dep where name=#{name}
+  </select>
+  <delete id="deleteByID" parameterType="java.lang.Integer" >
+    delete from dep
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zking.springboot_project.personnel.model.Dep" >
+    insert into dep (name, tele
+      )
+    values (#{name,jdbcType=VARCHAR}, #{tele,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByID" parameterType="com.zking.springboot_project.personnel.model.Dep" >
+    update dep
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tele != null" >
+        tele = #{tele,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.springboot_project.sys.mapper.EmpRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.zking.springboot_project.sys.model.EmpRole" >
+    <constructor >
+      <arg column="roleid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="empid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <insert id="insertEmpRole" parameterType="com.zking.springboot_project.sys.model.EmpRole" >
+    insert into emp_role (roleid, empid)
+    values (#{roleid,jdbcType=INTEGER}, #{empid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zking.springboot_project.sys.model.EmpRole" >
+    insert into emp_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleid != null" >
+        roleid,
+      </if>
+      <if test="empid != null" >
+        empid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleid != null" >
+        #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="empid != null" >
+        #{empid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateEmpRole" parameterType="com.zking.springboot_project.sys.model.EmpRole">
+    update emp_role set roleid=#{roleid} where empid=#{empid}
+  </update>
+  <select id="queryEmpRole" resultType="com.zking.springboot_project.sys.model.EmpRole"
+          parameterType="com.zking.springboot_project.sys.model.EmpRole">
+    select * from emp_role where empid=#{empid}
+  </select>
+</mapper>

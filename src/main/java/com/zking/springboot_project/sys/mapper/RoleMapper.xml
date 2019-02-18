@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.springboot_project.sys.mapper.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.zking.springboot_project.sys.model.Role" >
+    <constructor >
+      <idArg column="roleid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="rolename" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    roleid, rolename,remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from role
+    where roleid = #{roleid,jdbcType=INTEGER}
+  </select>
+    <select id="queryRolelist" resultType="com.zking.springboot_project.sys.model.Role"
+            parameterType="com.zking.springboot_project.sys.model.Role">
+      select * from role where 1=1
+    </select>
+  <select id="queryRole" resultType="com.zking.springboot_project.sys.model.Role"
+          parameterType="com.zking.springboot_project.sys.model.Role">
+    select * from role where 1=1
+    <if test="rolename!=null and ''!=rolename">
+      and rolename=#{rolename}
+    </if>
+  </select>
+  <delete id="deleteByID" parameterType="java.lang.Integer" >
+    delete from role
+    where roleid = #{roleid}
+  </delete>
+  <insert id="insert" parameterType="com.zking.springboot_project.sys.model.Role" >
+    insert into role ( rolename,remark)
+    values ( #{rolename},#{remark})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zking.springboot_project.sys.model.Role" >
+    insert into role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleid != null" >
+        roleid,
+      </if>
+      <if test="rolename != null" >
+        rolename,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleid != null" >
+        #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="rolename != null" >
+        #{rolename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zking.springboot_project.sys.model.Role" >
+    update role
+    <set >
+      <if test="rolename != null" >
+        rolename = #{rolename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where roleid = #{roleid,jdbcType=INTEGER}
+  </update>
+  <update id="updateById" parameterType="com.zking.springboot_project.sys.model.Role" >
+    update role
+    set rolename = #{rolename},
+    remark=#{remark}
+    where roleid = #{roleid}
+  </update>
+</mapper>

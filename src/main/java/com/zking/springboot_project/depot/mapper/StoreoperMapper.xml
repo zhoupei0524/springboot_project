@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zking.springboot_project.depot.mapper.StoreoperMapper">
+  <resultMap id="BaseResultMap" type="com.zking.springboot_project.depot.model.Storeoper">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="empid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="opertime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="storeid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="goodsid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="num" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="type" javaType="java.lang.String" jdbcType="CHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, empid, opertime, storeid, goodsid, num, type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from storeoper
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="queryStoreoperMapPage" resultType="map"
+            parameterType="com.zking.springboot_project.depot.vo.StoreoperVo">
+      SELECT so.id,so.opertime,so.num,so.type,e.realname emp,s.name store,g.name goods
+      FROM storeoper so,emp e,store s,goods g
+      WHERE so.empid=e.id AND so.storeid=s.id AND so.goodsid=g.id
+      <if test="empid!=null">
+        and so.empid=#{empid}
+      </if>
+      <if test="startDay!=null and ''!=startDay">
+        and so.opertime&gt;=#{startDay}
+      </if>
+      <if test="endDay!=null and ''!=endDay">
+        and so.opertime&lt;=#{endDay}
+      </if>
+      <if test="storeid!=null">
+        and so.storeid=#{storeid}
+      </if>
+      <if test="goodsid!=null">
+        and so.goodsid=#{goodsid}
+      </if>
+      <if test="type!=null and ''!=type ">
+        and so.type=#{type}
+      </if>
+      <if test="num!=null ">
+        and s.empid=#{num}
+      </if>
+      ORDER  by so.opertime DESC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from storeoper
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zking.springboot_project.depot.model.Storeoper">
+    insert into storeoper (id, empid, opertime, 
+      storeid, goodsid, num, 
+      type)
+    values (#{id,jdbcType=INTEGER}, #{empid,jdbcType=INTEGER}, #{opertime,jdbcType=TIMESTAMP}, 
+      #{storeid,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, 
+      #{type,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zking.springboot_project.depot.model.Storeoper">
+    insert into storeoper
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="empid != null">
+        empid,
+      </if>
+      <if test="opertime != null">
+        opertime,
+      </if>
+      <if test="storeid != null">
+        storeid,
+      </if>
+      <if test="goodsid != null">
+        goodsid,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="empid != null">
+        #{empid,jdbcType=INTEGER},
+      </if>
+      <if test="opertime != null">
+        #{opertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storeid != null">
+        #{storeid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsid != null">
+        #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zking.springboot_project.depot.model.Storeoper">
+    update storeoper
+    <set>
+      <if test="empid != null">
+        empid = #{empid,jdbcType=INTEGER},
+      </if>
+      <if test="opertime != null">
+        opertime = #{opertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storeid != null">
+        storeid = #{storeid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsid != null">
+        goodsid = #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zking.springboot_project.depot.model.Storeoper">
+    update storeoper
+    set empid = #{empid,jdbcType=INTEGER},
+      opertime = #{opertime,jdbcType=TIMESTAMP},
+      storeid = #{storeid,jdbcType=INTEGER},
+      goodsid = #{goodsid,jdbcType=INTEGER},
+      num = #{num,jdbcType=INTEGER},
+      type = #{type,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+
+
+
+</mapper>
